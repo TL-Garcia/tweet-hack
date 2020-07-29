@@ -4,9 +4,14 @@ const multer = require('multer');
 const tweetsController = require('../controllers/tweets.controller')
 const usersController = require('../controllers/users.controller')
 const sessionMiddleware = require('../middlewares/session.middleware')
-const uploads = multer({ dest: './public/uploads' });
+const uploads = multer({
+  dest: './public/uploads'
+});
+const passport = require('passport');
 
-router.get('/auth/slack', sessionMiddleware.isNotAuthenticated, usersController.doSocialLogin);
+router.get('/auth/slack', sessionMiddleware.isNotAuthenticated, usersController.doSlackLogin);
+router.get('/auth/google', sessionMiddleware.isNotAuthenticated, usersController.doGoogleLogin);
+router.get('/auth/google/callback', sessionMiddleware.isNotAuthenticated, usersController.googleCallback);
 router.get('/login', sessionMiddleware.isNotAuthenticated, usersController.login);
 router.post('/login', sessionMiddleware.isNotAuthenticated, usersController.doLogin);
 router.get('/signup', sessionMiddleware.isNotAuthenticated, usersController.signup);
